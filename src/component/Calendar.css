@@ -1,0 +1,15 @@
+.calendar {
+  width: 300px;
+}
+.day-nameplate {
+  display: flex;
+  justify-content: space-between;
+}
+.day-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+}
+.day-grid-day {
+  outline: 1px solid black;
+}

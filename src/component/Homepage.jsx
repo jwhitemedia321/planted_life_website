@@ -1,9 +1,12 @@
-import React from 'react'
+import React from "react";
 
 const Homepage = () => {
   return (
-    <div>Homepage</div>
-  )
-}
+    <div>
+      <p>Welcome to the Planted Life Website</p>
+      <p>Get rewarded for living life!</p>
+    </div>
+  );
+};
 
-export default Homepage
+export default Homepage;
