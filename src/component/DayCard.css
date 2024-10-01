@@ -1,0 +1,7 @@
+.day-card {
+    width: 300px;
+}
+.task-form, .meeting-form{
+    display: grid;
+    grid-template-columns: 1fr;
+}

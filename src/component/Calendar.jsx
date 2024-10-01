@@ -1,21 +1,27 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import "./Calendar.css";
+import DayCard from "./DayCard";
 const Calendar = () => {
-  const [currentDate, setCurrentDate] = useState(new Date());
+  const [currentDisplayedDate, setCurrentDisplayedDate] = useState(new Date());
+  const [currentDate, setCurrentDate] = useState(new Date().toLocaleString("default", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  }))
   const [displayedDaysArray, setDisplayedDaysArray] = useState([]);
-
+  const [selectedDate, setSelectedDate] = useState("");
+  const [showDayCard, setShowDayCard] = useState(false);
   const daysInWeek = ["Sun", "Mon", "Tues", "Wed", "Thur", "Fri", "Sat"];
   useEffect(() => {
-    const currentMonth = currentDate.getMonth();
-    const currentYear = currentDate.getFullYear();
+    const currentMonth = currentDisplayedDate.getMonth();
+    const currentYear = currentDisplayedDate.getFullYear();
     const firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay();
     const totalDaysInMonth = new Date(
       currentYear,
       currentMonth + 1,
       0
     ).getDate();
-
     const daysArray = [];
 
     for (let i = 0; i < firstDayOfMonth; i++) {
@@ -26,30 +32,40 @@ const Calendar = () => {
       daysArray.push(day);
     }
     setDisplayedDaysArray(daysArray);
-  }, [currentDate]);
+  }, [currentDisplayedDate]);
   const handleMonthForward = () => {
-    setCurrentDate(
-      new Date(currentDate.getFullYear(), currentDate.getMonth() + 1)
+    setCurrentDisplayedDate(
+      new Date(currentDisplayedDate.getFullYear(), currentDisplayedDate.getMonth() + 1)
     );
   };
   const handleMonthBackward = () => {
-    setCurrentDate(
-      new Date(currentDate.getFullYear(), currentDate.getMonth() - 1)
+    setCurrentDisplayedDate(
+      new Date(currentDisplayedDate.getFullYear(), currentDisplayedDate.getMonth() - 1)
     );
   };
   const handleDayClicked = (e) => {
-    console.log(e.target.id);
+    setSelectedDate(
+      e.target.id +
+        ", " +
+        currentDisplayedDate.toLocaleString("default", {
+          month: "long",
+          year: "numeric",
+        })
+    );
+    setShowDayCard(true);
   };
   return (
     <div className="calendar">
       <div className="calendar-title">
+        <h1>Today is {currentDate}</h1>
         <h2>
           <button onClick={handleMonthBackward}>{"<"}</button>{" "}
-          {currentDate.toLocaleString("default", { month: "long" })}{" "}
-          {currentDate.getFullYear()}{" "}
+          {currentDisplayedDate.toLocaleString("default", {month:"long", year:"numeric"})}
           <button onClick={handleMonthForward}>{">"}</button>
         </h2>
       </div>
+
+      {showDayCard && <DayCard day={selectedDate} />}
       <div className="day-nameplate">
         {daysInWeek.map((day) => (
           <div key={day} className="day-nameplate-day">
